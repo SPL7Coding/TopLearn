@@ -1,0 +1,106 @@
+﻿@model TopLearn.Core.DTOs.Question.ShowQuestionVM
+@using System.Security.Claims
+@using TopLearn.Core.Convertors
+
+@{
+    ViewData["Title"] = "پرسش " + Model.Question.Title;
+}
+<style>
+    .IsTrue {
+        border: 2px solid green !important;
+    }
+</style>
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"> تاپ لرن </a></li>
+            <li class="breadcrumb-item"><a href="/Forum/Questions"> پرسش و پاسخ </a></li>
+            <li class="breadcrumb-item active" aria-current="page"> @Model.Question.Title </li>
+        </ul>
+    </nav>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="inner">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h1>@Model.Question.Title</h1>
+                    </div>
+                    <div class="panel-body">
+                        @Html.Raw(Model.Question.Body)
+                    </div>
+                    <div class="panel-footer">
+                        <img src="~/UserAvatar/@Model.Question.User.UserAvatar" style="max-width: 50px; border-radius: 20px;" />
+                        @Model.Question.User.UserName | @Model.Question.CreateDate.ToShamsi()
+                    </div>
+                </div>
+            </div>
+
+       
+
+            <div class="inner" style="margin-top: 25px;">
+                @foreach (var answer in Model.Answers)
+                {
+                    <div class="panel @((answer.IsTrue)?"IsTrue":"")">
+                        <div class="panel-heading">
+                            <img src="~/UserAvatar/@answer.User.UserAvatar" style="max-width: 40px; border-radius: 20px;" />
+                            @answer.User.UserName | @answer.CreateDate.ToShamsi()
+                        </div>
+                        <div class="panel-body">
+                            @Html.Raw(answer.BodyAnswer)
+                            
+                            @if (User.Identity.IsAuthenticated && Model.Question.UserId == int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier).ToString()))
+                            {
+                                <p>
+                                    <a class="btn btn-success pull-left" asp-action="SelectIsTrueAnswer" asp-route-questionId="@Model.Question.QuestionId"  asp-route-answerId="@answer.AnswerId">
+                                        پاسخ صحیح
+                                    </a>
+                                </p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="inner" style="margin-top: 25px;">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h1 style="font-size: 18px;" class="text-success text-muted">افزودن پاسخ جدید</h1>
+                    </div>
+                    <div class="panel-body">
+                        <form asp-action="Answer">
+                            <div class="form-group">
+                                <input type="hidden" name="id" value="@Model.Question.QuestionId"/>
+                                <textarea name="body"></textarea>
+                                <button class="btn btn-block btn-success" style="margin-top: 20px; height: 50px; font-size: 15px;" type="submit">ثبت پاسخ شما</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                برای پاسخ دادن به این سوال باید لاگین کنید
+            </div>
+        }
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+    <script>
+
+        CKEDITOR.replace('body', {
+            customConfig: '/js/Config.js'
+        });
+
+    </script>
+}

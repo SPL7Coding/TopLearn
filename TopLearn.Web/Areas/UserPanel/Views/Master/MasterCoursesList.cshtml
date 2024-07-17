@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TopLearn.DataLayer.Entities.Course.Course>
+
+@{
+    ViewData["Title"] = "لیست دوره ها";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">تاپ لرن</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> @ViewData["Title"] </li>
+        </ul>
+    </nav>
+</div>
+
+<main>
+    <div class="container">
+        <div class="user-account">
+            <div class="row">
+                <partial name="_SideBar" />
+                <div class="col-md-9 col-sm-8 col-xs-12">
+                    <section class="user-account-content">
+                        <header><h1> @ViewData["Title"] </h1></header>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>عنوان</th>
+                                    <th>وضعیت</th>
+                                    <th>تعداد قسمت ها</th>
+                                   <th>دستورات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.CourseTitle
+                                        </td>
+                                        <td>
+                                            @item.CourseStatus.StatusTitle
+                                        </td>
+                                        <td>@item.CourseEpisodes.Count()</td>
+                                        <td>
+                                            <a class="btn btn-info" asp-action="EpisodesList" asp-controller="Master" asp-route-courseId="@item.CourseId">مدیریت قسمت ها</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

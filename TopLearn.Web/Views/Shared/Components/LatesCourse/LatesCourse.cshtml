@@ -1,0 +1,7 @@
+﻿@model IEnumerable<TopLearn.Core.DTOs.Course.ShowCourseListItemViewModel>
+
+
+@foreach (var item in Model)
+{
+    <partial name="_BoxCourse" model="@item" />
+}

@@ -1,0 +1,35 @@
+﻿@using TopLearn.Core.Convertors
+@using TopLearn.DataLayer.Entities.Course
+@model Tuple<List<TopLearn.DataLayer.Entities.Course.CourseComment>, int>
+
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model.Item1)
+{
+    <!-- row -->
+    <div class="comment-row">
+        <img src="/UserAvatar/@item.User.UserAvatar">
+        <div class="left-col">
+            <h3> @item.User.UserName </h3>
+            <span>@item.CreateDate.ToShamsi()</span>
+            <p>
+            @item.Comment
+                </p>
+        </div>
+    </div>
+    <!-- /row -->
+}
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+
+       @for (int i = 1; i <= Model.Item2; i++)
+       {
+           <li class="page-item"><a class="page-link" onclick="pageComment(@i)">@i</a></li>
+       }
+
+    </ul>
+</nav>
+

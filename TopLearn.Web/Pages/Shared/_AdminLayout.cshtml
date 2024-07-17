@@ -1,0 +1,129 @@
+﻿@using TopLearn.Core.Services.Interfaces
+
+@inject IPermissionService _PermissionService
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>پنل مدیریت تاپ لرن</title>
+
+    <!-- Core CSS - Include with every page -->
+    <link href="/AdminContent/css/bootstrap-rtl.css" rel="stylesheet">
+    <link href="/AdminContent/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Page-Level Plugin CSS - Dashboard -->
+    <link href="/AdminContent/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+    <link href="/AdminContent/css/plugins/timeline/timeline.css" rel="stylesheet">
+
+    <!-- SB Admin CSS - Include with every page -->
+    <link href="/AdminContent/css/sb-admin.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Admin">TopLearn.Com</a>
+            </div>
+            <!-- /.navbar-header -->
+
+          
+
+            <div class="navbar-default navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="/Admin"><i class="fa fa-dashboard fa-fw"></i> پنل ادمین</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> مدیریت کاربران<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @if (_PermissionService.CheckPermission(1002, User.Identity.Name))
+                                {
+                                    <li>
+                                        <a href="/admin/roles">دسترسی ها</a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="/admin/users">کاربران</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/users/ListDeleteUsers"> کاربران حذف شده</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> مدیریت دوره ها<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/admin/Courses">دوره ها</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/Discount">تخفیف ها</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/CourseGroups"> گروه ها</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+          @RenderBody()
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- Core Scripts - Include with every page -->
+    <script src="/AdminContent/js/jquery-1.10.2.js"></script>
+    <script src="/AdminContent/js/bootstrap.min.js"></script>
+    <script src="/AdminContent/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- Page-Level Plugin Scripts - Dashboard -->
+    <script src="/AdminContent/js/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="/AdminContent/js/plugins/morris/morris.js"></script>
+
+    <!-- SB Admin Scripts - Include with every page -->
+    <script src="/AdminContent/js/sb-admin.js"></script>
+
+    <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
+    <script src="/AdminContent/js/demo/dashboard-demo.js"></script>
+    @RenderSection("Scripts",false)
+</body>
+
+</html>

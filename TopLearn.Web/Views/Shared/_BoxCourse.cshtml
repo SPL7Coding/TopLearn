@@ -1,0 +1,19 @@
+﻿@model TopLearn.Core.DTOs.Course.ShowCourseListItemViewModel
+<!-- col -->
+<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 term-col">
+    <article>
+        <a href="/ShowCourse/@Model.CourseId" class="img-layer"><img  src="/course/thumb/@Model.ImageName"></a>
+        <h2><a href="/ShowCourse/@Model.CourseId"> @Model.Title </a></h2>
+        <span> @((Model.Price==0)?"رایگان":Model.Price.ToString("#,0")) </span>
+        
+        @{
+            var duration = new TimeSpan(Model.CourseEpisodes.Sum(e => e.EpisodeTime.Ticks));
+            var th = (int) duration.TotalHours;
+            var tm = (int) duration.TotalMinutes -  (th*60);
+            var ts = "00";
+            
+        }
+        <i>@($"{th}:{tm}:{ts}")</i>
+    </article>
+</div>
+<!-- /col -->

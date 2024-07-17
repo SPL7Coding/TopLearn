@@ -1,0 +1,70 @@
+﻿@using TopLearn.Core.Convertors
+@using TopLearn.Core.Services.Interfaces
+@model IEnumerable<TopLearn.DataLayer.Entities.Question.Question>
+@inject ICourseService _CourseService;
+@inject IOrderService _OrderService;
+
+
+@{
+    ViewData["Title"] = "Index";
+    var course = _CourseService.GetCourseById((int) ViewBag.CourseId);
+}
+
+<div class="container">
+<div class="row">
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="inner" style="padding: 8px">
+        <div class="panel">
+           @if (ViewBag.CourseId != null)
+           {
+               if (User.Identity.IsAuthenticated)
+               {
+                   if (course.CoursePrice==0 || _OrderService.IsUserInCourse(User.Identity.Name, (int)ViewBag.CourseId))
+                   {
+                       <a asp-action="CreateQuestion" asp-route-id="@ViewBag.CourseId" class="btn btn-success">
+                           پرسیدن سوال
+                       </a>
+                   }
+                   else
+                   {
+                       <div class="alert alert-danger">
+                           شما این دوره را خریداری نکردید
+                       </div>
+                   }
+               }
+               else
+               {
+                   <div class="alert alert-danger">
+                       برای پرسیدن سوال باید وارد سایت شوید
+                   </div>
+               }
+           }
+            <form class="form-inline" asp-action="Index" method="get">
+                <input type="text" placeholder="عبارت را وارد کنید" class="form-control" name="filter"/>
+                <button type="submit" class="btn btn-success">
+                    بیاب
+                </button>
+                <input type="hidden" name="courseId" value="@ViewBag.CourseId"/>
+            </form>
+        </div>
+            @foreach (var item in Model)
+            {
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h1>
+                            <a href="/Forum/ShowQuestion/@item.QuestionId">@item.Title</a>
+                        </h1>
+                        <p class="text-muted" style="margin: 10px">
+                            <a>@item.Course.CourseTitle</a> |
+                            <span class="label label-default">@item.User.UserName</span> |
+                            <span class="label label-warning">
+                                @item.CreateDate.ToShamsi()
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+</div>
+</div>
+</div>

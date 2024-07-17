@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Http
+@model TopLearn.Core.DTOs.LoginViewModel
+@{
+    ViewData["Title"] = "ورود به سایت";
+}
+
+<nav aria-label="breadcrumb">
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">تاپ لرن</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ورود به سایت</li>
+    </ul>
+</nav>
+
+<main class="client-page">
+    <div class="container-content">
+        @if (ViewBag.IsSuccess != null)
+        {
+            <div class="alert alert-success">
+                <p class="help-block">ورود با موفقیت انجام شد</p>
+            </div>
+
+            <script>
+                // Your delay in milliseconds
+                var delay = 3000; 
+                setTimeout(function () { window.location = "/UserPanel"; }, delay);
+            </script>
+        }
+        
+        @if (ViewBag.EditProfile==true)
+        {
+            <div class="alert alert-warning">
+بدلیل ویرایش پروفایل و بارگزاری مجدد اطلاعات لطفا مجدد لاگین کنید
+            </div>
+        }
+        <header><h2> ورود به سایت </h2></header>
+
+        <div class="form-layer">
+
+            <form asp-action="Login" method="post">
+
+                <div class="input-group">
+                    <span class="input-group-addon" id="email-address"><i class="zmdi zmdi-email"></i></span>
+                    <input asp-for="Email" type="text" class="form-control" placeholder="ایمیل" aria-describedby="email-address">
+
+                </div>
+                <span asp-validation-for="Email"></span>
+                <div class="input-group">
+                    <span class="input-group-addon" id="password"><i class="zmdi zmdi-lock"></i></span>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="رمز عبور " aria-describedby="password">
+
+                </div>
+                <span asp-validation-for="Password"></span>
+                <div class="remember-me">
+                    <label><input asp-for="RememberMe" type="checkbox" name="">  مرا بخاطر بسپار </label>
+                </div>
+
+                <div class="link">
+                    <a href="/ForgotPassword"> <i class="zmdi zmdi-lock"></i> رمز عبور خود را فراموش کرده ام !</a>
+                    <a href="/Register"> <i class="zmdi zmdi-account"></i> عضویت در سایت </a>
+                </div>
+
+                <button class="btn btn-success"> ورود به سایت </button>
+
+            </form>
+        </div>
+
+    </div>
+</main>
